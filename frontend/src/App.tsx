@@ -1,12 +1,11 @@
-import './App.module.css'
+import "./App.module.css";
 
 function App() {
-
   return (
     <>
-    <h1>Hello World</h1>
+      <h1>Hello World</h1>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
