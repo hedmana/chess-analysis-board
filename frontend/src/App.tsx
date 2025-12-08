@@ -1,10 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { StartMenu } from "./components/StartMenu/StartMenu";
+import { AnalysisBoard } from "./components/AnalysisBoard/AnalysisBoard";
 import "./App.module.css";
 
 function App() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route path="/" element={<StartMenu />} />
+          <Route path="/analysis" element={<AnalysisBoard />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
