@@ -4,8 +4,12 @@ import styles from "./StartMenu.module.css";
 export function StartMenu() {
   const navigate = useNavigate();
 
-  const handleNewAnalysis = () => {
-    navigate("/analysis");
+  const handleNavigationClick = (target: string) => () => {
+    if (target === "analysis") {
+      navigate("/analysis");
+    } else if (target === "play") {
+      navigate("/play");
+    }
   };
 
   return (
@@ -14,7 +18,8 @@ export function StartMenu() {
         <h1>Chess Analysis Board</h1>
       </div>
 
-      <button onClick={handleNewAnalysis}>New Analysis</button>
+      <button onClick={handleNavigationClick("analysis")}>New Analysis</button>
+      <button onClick={handleNavigationClick("play")}>Play Chess</button>
     </div>
   );
 }
