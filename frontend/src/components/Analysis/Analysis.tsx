@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./AnalysisBoard.module.css";
+import { ChessBoard } from "../ChessBoard/ChessBoard";
 
-export function AnalysisBoard() {
+import styles from "./Analysis.module.css";
+
+export function Analysis() {
   const navigate = useNavigate();
 
   const handleMainMenu = () => {
@@ -12,6 +14,7 @@ export function AnalysisBoard() {
     <div className={styles.container}>
       <div>
         <h1>Let's Analyze</h1>
+        <ChessBoard/>
       </div>
 
       <button onClick={handleMainMenu}>Back to Main Menu</button>

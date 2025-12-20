@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { StartMenu } from "./components/StartMenu/StartMenu";
-import { AnalysisBoard } from "./components/AnalysisBoard/AnalysisBoard";
+import { Analysis } from "./components/Analysis/Analysis";
 import "./App.module.css";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<StartMenu />} />
-          <Route path="/analysis" element={<AnalysisBoard />} />
+          <Route path="/analysis" element={<Analysis />} />
         </Routes>
       </div>
     </BrowserRouter>
