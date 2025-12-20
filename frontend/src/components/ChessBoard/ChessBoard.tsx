@@ -30,11 +30,20 @@ export function ChessBoard() {
   }
 
   return (
-    <Chessboard
-      options={{
-        position: game.fen(),
-        onPieceDrop: onDrop,
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "600px",
+        aspectRatio: "1",
+        margin: "0 auto",
       }}
-    />
+    >
+      <Chessboard
+        options={{
+          position: game.fen(),
+          onPieceDrop: onDrop,
+        }}
+      />
+    </div>
   );
 }
