@@ -27,6 +27,7 @@ class MoveResponse(BaseModel):
 class AnalysisResponse(BaseModel):
     evaluation: dict
     best_move: str
+    top_moves: list = []
 
 
 @app.get("/health")
@@ -55,6 +56,7 @@ def analyze_position(request: PositionRequest):
         return AnalysisResponse(
             evaluation=analysis["evaluation"],
             best_move=analysis["best_move"],
+            top_moves=analysis.get("top_moves", []),
         )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
