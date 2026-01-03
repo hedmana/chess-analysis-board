@@ -10,7 +10,6 @@ export function Play() {
   const navigate = useNavigate();
   const [fen, setFen] = useState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [gameOver, setGameOver] = useState(false);
 
   const handleMainMenu = () => {
@@ -30,7 +29,6 @@ export function Play() {
 
     // Get engine's response
     setLoading(true);
-    setError(null);
     try {
       const result = await getBestMove(move.fen);
       
@@ -47,7 +45,6 @@ export function Play() {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Engine error");
       console.error("Engine error:", err);
     } finally {
       setLoading(false);
@@ -56,15 +53,16 @@ export function Play() {
 
   return (
     <div className={styles.container}>
-      <div>
-        <h1>Let's Play</h1>
-        {error && <div style={{ color: "red", marginBottom: "12px" }}>{error}</div>}
-        {loading && <div style={{ color: "gray", marginBottom: "12px" }}>Engine thinking...</div>}
-        {gameOver && <div style={{ color: "green", marginBottom: "12px", fontWeight: "bold" }}>Game Over!</div>}
-        <ChessBoard mode="play" fen={fen} onMove={handleMove} interactive={!loading && !gameOver} />
+      <h1>Let's Play</h1>
+      <div className={styles.mainContent}>
+        <div className={styles.boardWrapper}>
+          {gameOver && <div style={{ color: "green", marginBottom: "12px", fontWeight: "bold" }}>Game Over!</div>}
+          <ChessBoard mode="play" fen={fen} onMove={handleMove} interactive={!loading && !gameOver} />
+        </div>
+        <div className={styles.sidebar}>
+          <button onClick={handleMainMenu}>Back to Main Menu</button>
+        </div>
       </div>
-
-      <button onClick={handleMainMenu}>Back to Main Menu</button>
     </div>
   );
 }
