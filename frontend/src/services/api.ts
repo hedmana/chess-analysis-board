@@ -30,33 +30,41 @@ export async function checkHealth(): Promise<boolean> {
 }
 
 export async function getBestMove(fen: string): Promise<MoveResponse> {
-  const response = await fetch(`${API_BASE_URL}/move`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ fen }),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/move`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fen }),
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to get best move: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error("Backend is not running");
+    }
+
+    return response.json();
+  } catch {
+    throw new Error("Backend is not running");
   }
-
-  return response.json();
 }
 
 export async function analyzePosition(fen: string): Promise<AnalysisResponse> {
-  const response = await fetch(`${API_BASE_URL}/analyze`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ fen }),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/analyze`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fen }),
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to analyze position: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error("Backend is not running");
+    }
+
+    return response.json();
+  } catch {
+    throw new Error("Backend is not running");
   }
-
-  return response.json();
 }
