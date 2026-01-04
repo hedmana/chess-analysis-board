@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from engines.stockfish import StockfishEngine
+from engines.minimax import MinimaxEngine
 from engines.base import Engine
 
 app = FastAPI(title="Chess Engine API", version="0.1.0")
@@ -17,6 +18,7 @@ app.add_middleware(
 # Available engines
 AVAILABLE_ENGINES = {
     "stockfish": StockfishEngine,
+    "minimax": MinimaxEngine,
 }
 
 current_engine_name = "stockfish"
