@@ -32,8 +32,6 @@ function App() {
       }
     };
 
-    checkBackendHealth();
-
     const healthCheckInterval = setInterval(checkBackendHealth, 20000);
 
     const handleVisibilityChange = () => {
