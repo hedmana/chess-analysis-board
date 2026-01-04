@@ -77,6 +77,12 @@ export function Play() {
     }
   };
 
+  const handleRestartGame = () => {
+    const initialFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    setFen(initialFen);
+    setGameOver(false);
+  };
+
   return (
     <div className={styles.container}>
       <h1>Let's Play</h1>
@@ -115,6 +121,9 @@ export function Play() {
               )}
             </select>
           </div>
+          <button onClick={handleRestartGame} style={{ marginBottom: "8px" }}>
+            Restart Game
+          </button>
           <button onClick={handleMainMenu}>Back to Main Menu</button>
         </div>
       </div>

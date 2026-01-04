@@ -57,6 +57,13 @@ export function Analysis() {
     }
   };
 
+  const handleResetBoard = () => {
+    const initialFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    setFen(initialFen);
+    setEvaluation(null);
+    setRecommendedMoves([]);
+  };
+
   return (
     <div className={styles.container}>
       <h1>Let's Analyze</h1>
@@ -100,6 +107,9 @@ export function Analysis() {
               )}
             </select>
           </div>
+          <button onClick={handleResetBoard} style={{ marginBottom: "8px" }}>
+            Reset Board
+          </button>
           <button onClick={handleMainMenu}>Back to Main Menu</button>
         </div>
       </div>
