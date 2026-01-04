@@ -5,8 +5,8 @@ export function StartMenu() {
   const navigate = useNavigate();
 
   const handleNavigationClick = (target: string) => () => {
-    if (target === "analysis") {
-      navigate("/analysis");
+    if (target === "analyze") {
+      navigate("/analyze");
     } else if (target === "play") {
       navigate("/play");
     }
@@ -18,7 +18,7 @@ export function StartMenu() {
         <h1>Chess Analysis Board</h1>
       </div>
 
-      <button onClick={handleNavigationClick("analysis")}>New Analysis</button>
+      <button onClick={handleNavigationClick("analyze")}>New Analysis</button>
       <button onClick={handleNavigationClick("play")}>Play Chess</button>
     </div>
   );

@@ -32,6 +32,8 @@ function App() {
       }
     };
 
+    checkBackendHealth();
+
     const healthCheckInterval = setInterval(checkBackendHealth, 20000);
 
     const handleVisibilityChange = () => {
@@ -63,7 +65,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<StartMenu />} />
-          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/analyze" element={<Analysis />} />
           <Route path="/play" element={<Play />} />
         </Routes>
       </BrowserRouter>
