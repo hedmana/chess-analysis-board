@@ -6,7 +6,7 @@
   min-height: 100vh;
   gap: var(--spacing-xl);
   padding: var(--spacing-xl);
-  background: white;
+  background: var(--color-surface);
 }
 
 .container > div {
@@ -18,12 +18,12 @@
   font-size: var(--font-size-4xl);
   color: var(--color-primary);
   margin-bottom: var(--spacing-md);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: var(--shadow-text-sm);
   letter-spacing: 0.5px;
 }
 
 .container p {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-light);
   font-size: var(--font-size-lg);
   margin-bottom: 0;
 }
@@ -33,19 +33,19 @@
   padding: var(--spacing-md) var(--spacing-lg);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  background-color: white;
+  background-color: var(--color-surface);
   color: var(--color-primary);
   border: none;
   border-radius: var(--border-radius-lg);
   cursor: pointer;
   transition: all var(--transition-normal);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-button);
 }
 
 .container button:hover {
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  background-color: #f0f0f0;
+  box-shadow: var(--shadow-button-lg);
+  background-color: var(--button-hover-bg);
 }
 
 .container button:active {

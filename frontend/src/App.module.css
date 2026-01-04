@@ -16,20 +16,20 @@
 }
 
 .healthWarning.error {
-  background-color: #fee2e2;
-  color: #dc2626;
-  border: var(--border-width) solid #fca5a5;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border: var(--border-width) solid var(--color-error);
 }
 
 .healthWarning.success {
-  background-color: #dcfce7;
-  color: #16a34a;
-  border: var(--border-width) solid #86efac;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: var(--border-width) solid var(--color-success);
   animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
 }
 
 .healthWarning code {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--overlay-dark);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Courier New', monospace;

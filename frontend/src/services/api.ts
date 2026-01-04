@@ -20,12 +20,49 @@ export interface AnalysisResponse {
   top_moves: TopMove[];
 }
 
+export interface EngineListResponse {
+  available_engines: string[];
+  current_engine: string;
+}
+
 export async function checkHealth(): Promise<boolean> {
   try {
     const response = await fetch(`${API_ROOT}/health`);
     return response.ok;
   } catch {
     return false;
+  }
+}
+
+export async function getAvailableEngines(): Promise<EngineListResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/engines`);
+
+    if (!response.ok) {
+      throw new Error("Backend is not running");
+    }
+
+    return response.json();
+  } catch {
+    throw new Error("Backend is not running");
+  }
+}
+
+export async function selectEngine(engineName: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/engines/select`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ engine: engineName }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to select engine: ${engineName}`);
+    }
+  } catch {
+    throw new Error(`Failed to select engine: ${engineName}`);
   }
 }
 

@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from engines.stockfish import StockfishEngine
+from engines.base import Engine
 
 app = FastAPI(title="Chess Engine API", version="0.1.0")
 
@@ -13,11 +14,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-engine = StockfishEngine() # TODO: make configurable
+# Available engines
+AVAILABLE_ENGINES = {
+    "stockfish": StockfishEngine,
+}
+
+current_engine_name = "stockfish"
+engine = AVAILABLE_ENGINES[current_engine_name]()
 
 
 class PositionRequest(BaseModel):
     fen: str
+
+
+class EngineSelectRequest(BaseModel):
+    engine: str
 
 
 class MoveResponse(BaseModel):
@@ -30,6 +41,11 @@ class AnalysisResponse(BaseModel):
     top_moves: list = []
 
 
+class EngineListResponse(BaseModel):
+    available_engines: list[str]
+    current_engine: str
+
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
@@ -38,6 +54,34 @@ def health_check():
 @app.get("/")
 def root():
     return {"message": "Chess Engine API running"}
+
+
+@app.get("/api/engines", response_model=EngineListResponse)
+def list_engines():
+    return EngineListResponse(
+        available_engines=list(AVAILABLE_ENGINES.keys()),
+        current_engine=current_engine_name,
+    )
+
+
+@app.post("/api/engines/select")
+def select_engine(request: EngineSelectRequest):
+    global engine, current_engine_name
+    
+    if request.engine not in AVAILABLE_ENGINES:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Engine '{request.engine}' not available. Available engines: {list(AVAILABLE_ENGINES.keys())}"
+        )
+    
+    current_engine_name = request.engine
+    engine = AVAILABLE_ENGINES[request.engine]()
+    
+    return {
+        "message": f"Engine switched to {request.engine}",
+        "current_engine": current_engine_name,
+    }
+
 
 
 @app.post("/api/move", response_model=MoveResponse)
