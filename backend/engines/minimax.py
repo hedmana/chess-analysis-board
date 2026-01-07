@@ -1,3 +1,4 @@
+import os
 from chess import Board
 from .base import Engine
 
@@ -8,7 +9,7 @@ class MinimaxEngine(Engine):
     Efficient enough for deployment and suitable for training.
     """
 
-    def __init__(self, depth: int = 4):
+    def __init__(self, depth: int = None):
         """
         Initialize the minimax engine.
         
@@ -17,6 +18,9 @@ class MinimaxEngine(Engine):
                    Higher depth = stronger but slower
                    depth=3-4 is recommended for reasonable performance
         """
+        if depth is None:
+            depth = int(os.getenv("MINIMAX_DEPTH", "4"))
+            
         self.depth = depth
         self.transposition_table = {}
 
