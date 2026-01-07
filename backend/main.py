@@ -1,15 +1,24 @@
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from engines.stockfish import StockfishEngine
 from engines.minimax import MinimaxEngine
 from engines.base import Engine
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI(title="Chess Engine API", version="0.1.0")
 
+# Parse CORS origins from environment variable
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+allowed_origins = [origin.strip() for origin in allowed_origins]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,7 +30,7 @@ AVAILABLE_ENGINES = {
     "minimax": MinimaxEngine,
 }
 
-current_engine_name = "stockfish"
+current_engine_name = os.getenv("DEFAULT_ENGINE", "stockfish")
 engine = AVAILABLE_ENGINES[current_engine_name]()
 
 
@@ -48,7 +57,7 @@ class EngineListResponse(BaseModel):
     current_engine: str
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok"}
 

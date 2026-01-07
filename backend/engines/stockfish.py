@@ -1,10 +1,19 @@
+import os
 from stockfish import Stockfish
 from .base import Engine
 
 
 class StockfishEngine(Engine):
     def __init__(self):
-        self.engine = Stockfish(depth=20)  # TODO: make depth configurable
+        depth = int(os.getenv("STOCKFISH_DEPTH", "20"))
+        path = os.getenv("STOCKFISH_PATH")
+        
+        # Initialize with parameters if provided
+        kwargs = {"depth": depth}
+        if path:
+            kwargs["path"] = path
+            
+        self.engine = Stockfish(**kwargs)
 
     def get_best_move(self, fen: str) -> str:
         self.engine.set_fen_position(fen)

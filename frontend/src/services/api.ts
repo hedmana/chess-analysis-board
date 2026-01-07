@@ -1,5 +1,4 @@
-const API_BASE_URL = "http://localhost:8000/api";
-const API_ROOT = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
 
 export interface MoveResponse {
   best_move: string;
@@ -27,7 +26,7 @@ export interface EngineListResponse {
 
 export async function checkHealth(): Promise<boolean> {
   try {
-    const response = await fetch(`${API_ROOT}/health`);
+    const response = await fetch(`${API_BASE_URL}/health`);
     return response.ok;
   } catch {
     return false;
