@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chess-app-ingress
+  namespace: chess-app
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: chess-app-ip
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: chess-frontend
+      port:
+        number: 80
+  rules:
+    - http:
+        paths:
+          - path: /api/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: chess-backend
+                port:
+                  number: 80
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: chess-frontend
+                port:
+                  number: 80
