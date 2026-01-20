@@ -22,7 +22,7 @@ spec:
             - containerPort: 8000
           env:
             - name: ALLOWED_ORIGINS
-              value: "*"  # Update with your static IP after deployment
+              value: "https://chess.axelhedman.fi"
             - name: DEFAULT_ENGINE
               value: "stockfish"
             - name: STOCKFISH_PATH
