@@ -1,13 +1,8 @@
 # Cloud Build CI/CD Pipeline for Chess App
-#
-# Note: Uses static IP (no domain required). After first deploy, get your IP with:
-#   gcloud compute addresses describe chess-app-ip --global --format="get(address)"
-# Then update _STATIC_IP and redeploy.
-
 substitutions:
-  _REGION: us-central1
+  _REGION: europe-north1
   _CLUSTER: chess-app-cluster
-  _STATIC_IP: YOUR_STATIC_IP  # Replace after creating IP
+  _STATIC_IP: 34.54.43.83
 
 steps:
   # Build backend image

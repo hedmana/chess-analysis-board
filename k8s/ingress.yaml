@@ -5,15 +5,12 @@ metadata:
   namespace: chess-app
   annotations:
     kubernetes.io/ingress.global-static-ip-name: chess-app-ip
+    networking.gke.io/managed-certificates: chess-app-cert
     kubernetes.io/ingress.class: "gce"
 spec:
-  defaultBackend:
-    service:
-      name: chess-frontend
-      port:
-        number: 80
   rules:
-    - http:
+    - host: chess.axelhedman.fi
+      http:
         paths:
           - path: /api/*
             pathType: ImplementationSpecific
@@ -29,3 +26,13 @@ spec:
                 name: chess-frontend
                 port:
                   number: 80
+---
+# Managed certificate for HTTPS
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: chess-app-cert
+  namespace: chess-app
+spec:
+  domains:
+    - chess.axelhedman.fi
