@@ -1,0 +1,59 @@
+# Cloud Build CI/CD Pipeline for Chess App
+#
+# Note: Uses static IP (no domain required). After first deploy, get your IP with:
+#   gcloud compute addresses describe chess-app-ip --global --format="get(address)"
+# Then update _STATIC_IP and redeploy.
+
+substitutions:
+  _REGION: us-central1
+  _CLUSTER: chess-app-cluster
+  _STATIC_IP: YOUR_STATIC_IP  # Replace after creating IP
+
+steps:
+  # Build backend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/chess-backend:latest'
+      - './backend'
+
+  # Build frontend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/chess-frontend:latest'
+      - '--build-arg'
+      - 'VITE_API_BASE_URL=http://${_STATIC_IP}/api'
+      - './frontend'
+
+  # Push all images
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/chess-backend']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/chess-frontend']
+
+  # Deploy to GKE
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - 'run'
+      - '--filename=k8s/'
+      - '--location=${_REGION}'
+      - '--cluster=${_CLUSTER}'
+      - '--image=gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
+      - '--image=gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
+
+images:
+  - 'gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/chess-backend:latest'
+  - 'gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/chess-frontend:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

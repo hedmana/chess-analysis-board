@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from engines.stockfish import StockfishEngine
 from engines.minimax import MinimaxEngine
-from engines.base import Engine
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
