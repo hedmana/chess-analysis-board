@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: chess-frontend
-          image: gcr.io/PROJECT_ID/chess-frontend:latest
+          image: gcr.io/hedmana-chess-app/chess-frontend:latest
           ports:
             - containerPort: 80
           resources:
