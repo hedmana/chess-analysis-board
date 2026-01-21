@@ -2,15 +2,12 @@
 substitutions:
   _REGION: europe-north1
   _CLUSTER: chess-app-cluster
-  _STATIC_IP: 34.54.43.83
 
 steps:
   # Build backend image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
-      - '-t'
-      - 'gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/chess-backend:latest'
       - './backend'
@@ -20,8 +17,6 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
-      - '-t'
       - 'gcr.io/$PROJECT_ID/chess-frontend:latest'
       - '--build-arg'
       - 'VITE_API_BASE_URL=https://chess.axelhedman.fi/api'
@@ -29,10 +24,10 @@ steps:
 
   # Push all images
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/chess-backend']
+    args: ['push', 'gcr.io/$PROJECT_ID/chess-backend:latest']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/chess-frontend']
+    args: ['push', 'gcr.io/$PROJECT_ID/chess-frontend:latest']
 
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
@@ -41,13 +36,11 @@ steps:
       - '--filename=k8s/'
       - '--location=${_REGION}'
       - '--cluster=${_CLUSTER}'
-      - '--image=gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
-      - '--image=gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
+      - '--image=gcr.io/$PROJECT_ID/chess-backend:latest'
+      - '--image=gcr.io/$PROJECT_ID/chess-frontend:latest'
 
 images:
-  - 'gcr.io/$PROJECT_ID/chess-backend:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/chess-backend:latest'
-  - 'gcr.io/$PROJECT_ID/chess-frontend:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/chess-frontend:latest'
 
 options:
